@@ -17,18 +17,31 @@ import java.util.List;
 public class SpringMain {
     public static void main(String[] args) {
         // java 7 automatic resource management
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
             System.out.println("Bean definition names: " + Arrays.toString(appCtx.getBeanDefinitionNames()));
             AdminRestController adminUserController = appCtx.getBean(AdminRestController.class);
             adminUserController.create(new User(null, "userName", "email@mail.ru", "password", Role.ROLE_ADMIN));
             System.out.println();
 
             MealRestController mealController = appCtx.getBean(MealRestController.class);
+
             List<MealTo> filteredMealsWithExcess =
                     mealController.getBetween(
                             LocalDate.of(2015, Month.MAY, 30), LocalTime.of(7, 0),
                             LocalDate.of(2015, Month.MAY, 31), LocalTime.of(11, 0));
             filteredMealsWithExcess.forEach(System.out::println);
+
+//            List<MealTo> mealsWithExcess = mealController.getAll();
+//            mealsWithExcess.forEach(System.out::println);
+
+//            Meal meal = mealController.get(100005);
+//            System.out.println(meal);
+
+ //           mealController.delete(100005);
+
+ //           mealController.create(new Meal(LocalDateTime.of(2015, Month.APRIL, 1, 14, 0), "Тест", 510));
+
+  //          mealController.update(new Meal(LocalDateTime.of(2015, Month.APRIL, 1, 14, 0), "Тест", 510), 100002);
         }
     }
 }
