@@ -21,7 +21,29 @@
     <h3><a href="index.html">Home</a></h3>
     <hr/>
     <h2>Meals</h2>
-    <a href="meals?action=create">Add Meal</a>
+
+    <form method="post" action="meals?action=filter">
+        <dl>
+            DateStart:
+            <input type="date" value="dateStart" name="dateStart">
+        </dl>
+        <dl>
+            DateEnd:
+            <input type="date" value="dateEnd" name="dateEnd">
+        </dl>
+        <dl>
+            TimeStart:
+            <input type="time" value="timeStart" name="timeStart">
+        </dl>
+        <dl>
+            TimeEnd:
+            <input type="time" value="timeEnd" name="timeEnd">
+        </dl>
+        <button type="submit">Save</button>
+    </form>
+
+    <li><a href="meals?action=create">Add Meal</a></li>
+
     <br><br>
     <table border="1" cellpadding="8" cellspacing="0">
         <thead>
@@ -49,6 +71,8 @@
             </tr>
         </c:forEach>
     </table>
+
+    <li><a href="meals">All</a></li>
 </section>
 </body>
 </html>

@@ -18,7 +18,6 @@ import java.util.List;
 @Controller
 public class MealRestController {
     protected final Logger log = LoggerFactory.getLogger(getClass());
-    private static int userID = SecurityUtil.authUserId();
 
     private MealService service;
 
@@ -29,7 +28,7 @@ public class MealRestController {
 
     public List<MealTo> getAll() {
         log.info("getAllMeal");
-        return MealsUtil.getWithExcess(service.getAll(userID), MealsUtil.DEFAULT_CALORIES_PER_DAY);
+        return MealsUtil.getWithExcess(service.getAll(SecurityUtil.authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY);
     }
 
     public List<MealTo> getFilteredByDateTime(LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
@@ -46,27 +45,27 @@ public class MealRestController {
         if (endTime == null) {
             endTime = LocalTime.MAX;
         }
-        return MealsUtil.getFilteredWithExcess(service.getAll(userID), MealsUtil.DEFAULT_CALORIES_PER_DAY,
+        return MealsUtil.getFilteredWithExcess(service.getAll(SecurityUtil.authUserId()), MealsUtil.DEFAULT_CALORIES_PER_DAY,
                 LocalDateTime.of(startDate, startTime), LocalDateTime.of(endDate, endTime));
     }
 
     public Meal get(int id){
         log.info("get");
-        return service.get(userID, id);
+        return service.get(SecurityUtil.authUserId(), id);
     }
 
     public void delete(int id) {
         log.info("delete");
-        service.delete(userID, id);
+        service.delete(SecurityUtil.authUserId(), id);
     }
 
     public void save(Meal meal) {
         log.info("save");
-        service.save(userID, meal);
+        service.save(SecurityUtil.authUserId(), meal);
     }
 
     public void update(Meal meal) {
         log.info("update");
-        service.update(userID, meal);
+        service.update(SecurityUtil.authUserId(), meal);
     }
 }

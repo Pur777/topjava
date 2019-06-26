@@ -45,6 +45,9 @@ public class InMemoryMealRepositoryImpl implements MealRepository {
 
     @Override
     public Collection<Meal> getAll(int userID) {
+        if (!repository.containsKey(userID)) {
+            repository.put(userID, new HashMap<Integer, Meal>());
+        }
         return repository.get(userID).values().stream().sorted((o1, o2) -> o2.getDateTime().compareTo(o1.getDateTime())).collect(Collectors.toList());
     }
 
