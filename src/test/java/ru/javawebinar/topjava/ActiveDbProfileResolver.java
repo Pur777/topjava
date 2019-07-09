@@ -7,6 +7,21 @@ public class ActiveDbProfileResolver implements ActiveProfilesResolver {
 
     @Override
     public String[] resolve(Class<?> aClass) {
-        return new String[]{Profiles.getActiveDbProfile()};
+        String repositoryImplementation = null;
+        switch (aClass.getSimpleName()) {
+            case "MealDataJPATest":
+            case "UserDataJPATest":
+                repositoryImplementation = Profiles.DATAJPA;
+                break;
+            case "MealJPATest":
+            case "UserJPATest":
+                repositoryImplementation = Profiles.JPA;
+                break;
+            case "MealJDBCTest":
+            case "UserJDBCTest":
+                repositoryImplementation = Profiles.JDBC;
+                break;
+        }
+        return new String[]{Profiles.getActiveDbProfile(), repositoryImplementation};
     }
 }
