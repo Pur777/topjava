@@ -2,6 +2,7 @@ package ru.javawebinar.topjava.repository.inmemory;
 
 import org.springframework.stereotype.Repository;
 import ru.javawebinar.topjava.UserTestData;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
@@ -28,6 +29,21 @@ public class InMemoryUserRepository extends InMemoryBaseRepository<User> impleme
         return getCollection().stream()
                 .sorted(Comparator.comparing(User::getName).thenComparing(User::getEmail))
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void addRole(Role role, int id) {
+
+    }
+
+    @Override
+    public void setRole(Role role, int id) {
+
+    }
+
+    @Override
+    public void deleteRole(Role role, int id) {
+
     }
 
     @Override

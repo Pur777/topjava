@@ -5,6 +5,7 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 import ru.javawebinar.topjava.util.exception.NotFoundException;
@@ -53,6 +54,21 @@ public class UserService {
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
         checkNotFoundWithId(repository.save(user), user.getId());
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void deleteRole(Role role, int id) {
+        repository.deleteRole(role, id);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void addRole(Role role, int id) {
+        repository.addRole(role, id);
+    }
+
+    @CacheEvict(value = "users", allEntries = true)
+    public void setRole(Role role, int id) {
+        repository.setRole(role, id);
     }
 
     public User getWithMeals(int id) throws NotFoundException {

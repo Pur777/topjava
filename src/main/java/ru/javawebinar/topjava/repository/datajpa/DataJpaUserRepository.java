@@ -3,10 +3,13 @@ package ru.javawebinar.topjava.repository.datajpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
+import ru.javawebinar.topjava.model.Role;
 import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.repository.UserRepository;
 
 import java.util.List;
+import java.util.Set;
 
 @Repository
 public class DataJpaUserRepository implements UserRepository {
@@ -38,6 +41,30 @@ public class DataJpaUserRepository implements UserRepository {
     @Override
     public List<User> getAll() {
         return crudRepository.findAll(SORT_NAME_EMAIL);
+    }
+
+    @Override
+    @Transactional
+    public void addRole(Role role, int id) {
+        User user = get(id);
+        user.getRoles().add(role);
+        save(user);
+    }
+
+    @Override
+    @Transactional
+    public void setRole(Role role, int id) {
+        User user = get(id);
+        user.setRoles(Set.of(role));
+        save(user);
+    }
+
+    @Override
+    @Transactional
+    public void deleteRole(Role role, int id) {
+        User user = get(id);
+        user.getRoles().removeIf(role::equals);
+        save(user);
     }
 
     @Override
