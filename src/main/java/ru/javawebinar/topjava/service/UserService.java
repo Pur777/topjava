@@ -60,7 +60,6 @@ public class UserService implements UserDetailsService{
     @CacheEvict(value = "users", allEntries = true)
     public void update(User user) {
         Assert.notNull(user, "user must not be null");
-//      checkNotFoundWithId : check works only for JDBC, disabled
         repository.save(user);
     }
 
