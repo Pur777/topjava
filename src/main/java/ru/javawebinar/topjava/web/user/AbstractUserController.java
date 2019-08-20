@@ -7,6 +7,7 @@ import ru.javawebinar.topjava.model.User;
 import ru.javawebinar.topjava.service.UserService;
 import ru.javawebinar.topjava.to.UserTo;
 import ru.javawebinar.topjava.util.UserUtil;
+import ru.javawebinar.topjava.util.exception.IllegalRequestDataException;
 
 import java.util.List;
 
@@ -36,6 +37,9 @@ public abstract class AbstractUserController {
     public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
+        if(service.getByEmail(user.getEmail()) != null) {
+            throw new IllegalRequestDataException("User with this email already exists");
+        }
         return service.create(user);
     }
 
@@ -47,6 +51,10 @@ public abstract class AbstractUserController {
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
         assureIdConsistent(user, id);
+        User test = service.getByEmail(user.getEmail());
+        if(test != null && id != test.id()) {
+            throw new IllegalRequestDataException("User with this email already exists");
+        }
         service.update(user);
     }
 
